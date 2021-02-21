@@ -218,6 +218,31 @@ public class l005GTree {
 
     // diameter of GT
 
+    int dia=-(int)1e9;
+
+    public int diamter(Node root){
+        int height=-1;
+        int height1=-1;
+        for(Node child:root.childs){
+                int y=diamter(child);
+                if(y>height){
+                    height=y;
+                }else if(y>height1){
+                    height1=y;
+                }
+        }
+        dia=Math.max(dia,height+height1+2);
+        return height+1;
+
+    }
+
+
+
+    public static Node flat(Node node){
+        
+    }
+
+
     public static Node flattern(Node node) {
         if (node.childs.size() == 0)
             return node;
