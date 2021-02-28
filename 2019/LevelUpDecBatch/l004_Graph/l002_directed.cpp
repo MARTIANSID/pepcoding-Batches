@@ -103,6 +103,95 @@ void kahnsAlgo()
         cout << ele << " ";
 }
 
+bool isCyclePresent_DFSTopo(int src, vector<int> &vis, vector<int> &ans)
+{
+    vis[src] = 0;
+    bool res = false;
+    for (Edge e : graph[src])
+    {
+        if (vis[e.v] == -1)
+        { // unvisited
+            res = res || isCyclePresent_DFSTopo(e.v, vis, ans);
+        }
+        else if (vis[e.v] == 0)
+        {
+            return true; // there is cycle.
+        }
+    }
+
+    vis[src] = 1;
+    ans.push_back(src);
+    return res;
+}
+
+vector<int> isCyclePresent_DFS()
+{
+    vector<int> vis(N, -1);
+    vector<int> ans;
+
+    bool res = false;
+    for (int i = 0; i < N; i++)
+    {
+        if (vis[i] == -1)
+        {
+            res = res || isCyclePresent_DFSTopo(i, vis, ans);
+        }
+    }
+
+    if (res)
+        ans.clear();
+    return ans;
+}
+
+void dfs_SCC(vector<vector<Edge>> &ngraph, int src, vector<bool> &vis, vector<int> &ans)
+{
+    vis[src] = true;
+    for (Edge e : ngraph[src])
+    {
+        if (!vis[e.v])
+            dfs_SCC(ngraph, e.v, vis, ans);
+    }
+
+    ans.push_back(src);
+}
+
+//Kosaraju
+void kosaraju()
+{
+    vector<bool> vis(N, false);
+    vector<int> ans;
+    for (int i = 0; i < N; i++)
+    {
+        if (!vis[i])
+            dfs_topo(i, vis, ans);
+    }
+
+    // Graph inverse.
+    vector<vector<Edge>> ngraph(N);
+    for (int i = 0; i < N; i++)
+    {
+        for (Edge e : graph[i])
+        {
+            ngraph[e.v].push_back(Edge(i, 1));
+        }
+    }
+
+    vis.clear();
+    for (int i = ans.size() - 1; i >= 0; i--)
+    {
+        int ele = ans[i];
+        if (!vis[ele])
+        {
+            vector<int> scc;
+            dfs_SCC(ngraph, ele, vis, scc);
+
+            for (int e : scc)
+                cout << e << " ";
+            cout << endl;
+        }
+    }
+}
+
 void constructGraph()
 {
     addEdge(5, 0, 10);
