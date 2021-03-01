@@ -63,6 +63,7 @@ public class unionfind {
             size[i] = 1;
             par[i] = i;
         }
+        int u=N;
 
         boolean cycle = false;
         for (int[] edge : Edges) {
@@ -71,6 +72,7 @@ public class unionfind {
             int p2 = findPar(v);
 
             if (p1 != p2) {
+                u--; //  u-1 gives strongly connected component
                 merge(p1, p2);
                 addEdge(graph, u, v, w);
             } else

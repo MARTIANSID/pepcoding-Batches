@@ -97,7 +97,7 @@ int islandPerimeter(vector<vector<int>> &grid)
     int n = grid.size();
     int m = grid[0].size();
     vector<vector<int>> dir{{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
-    for (int i = 0; i < n; i++)
+    for (int i = 0;  i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {

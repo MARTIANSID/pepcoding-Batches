@@ -47,7 +47,7 @@ int findPar(int u)
 }
 
 // O(1)
-void merge(int p1, int p2)
+    void merge(int p1, int p2)
 {
     if (size[p1] > size[p2])
     {
@@ -88,7 +88,7 @@ void unionFind(int N, vector<vector<int>> &Edges)
             merge(p1, p2);
             addEdge(graph, u, v, w);
         }
-        else
+        else    
             cycle = true;
     }
 

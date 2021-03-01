@@ -32,7 +32,7 @@ public:
 
 struct comp
 {
-public:
+public: 
     bool opeartor(pair_ const &p, pair_ const &q) const
     {
         return p.val1 > q.val1; // minPQ.
