@@ -580,3 +580,104 @@ int longestIncreasingPath(vector<vector<int>> &matrix)
 
     return level;
 }
+
+vector<int> par;
+int findPar(int u)
+{
+    return par[u] == -1 ? u : par[u] = findPar(par[u]);
+}
+vector<int> findRedundantConnection(vector<vector<int>> &edges)
+{
+    int N = edges.size();
+    par.resize(N + 1, -1); // Arrays.fill(par,-1);
+
+    for (vector<int> &edge : edges)
+    {
+        int p1 = findPar(edge[0]);
+        int p2 = findPar(edge[1]);
+
+        if (p1 != p2)
+        {
+            par[p1] = p2;
+        }
+        else
+        {
+            return edge;
+        }
+    }
+
+    return {};
+}
+
+string smallestEquivalentString(string A, string B, string S)
+{
+    for (int i = 0; i < 26; i++)
+        par.push_back(i);
+    // par.resize(26,-1);
+
+    for (int i = 0; i < A.length(); i++)
+    {
+        int p1 = findPar(A[i] - 'a');
+        int p2 = findPar(B[i] - 'a');
+
+        par[p1] = min(p1, p2);
+        par[p2] = min(p1, p2);
+
+        //     if(p1 < p2)
+        //         par[p2] = p1;
+        //     else if(p2 < p1)par[p1] = p2;
+        //
+    }
+
+    string ans = "";
+    for (int i = 0; i < S.length(); i++)
+    {
+        ans += (char)(findPar(S[i] - 'a') + 'a');
+    }
+
+    return ans;
+}
+
+//839
+bool isSimilar(string &s1, string &s2)
+{
+    int count = 0;
+    for (int i = 0; i < s1.length(); i++)
+    {
+        if (s1[i] != s2[i] && ++count > 2)
+            return false;
+    }
+
+    return true;
+}
+
+int numSimilarGroups(vector<string> &strs)
+{
+
+    int count = strs.size();
+    int n = strs.size();
+
+    par.resize(n);
+    for (int i = 0; i < n; i++)
+        par[i] = i;
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (isSimilar(strs[i], strs[j]))
+            {
+                int p1 = findPar(i);
+                int p2 = findPar(j);
+
+                if (p1 != p2)
+                {
+                    par[p1] = p2;
+                    count--;
+                }
+            }
+        }
+    }
+
+    return count;
+}
