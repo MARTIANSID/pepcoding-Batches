@@ -84,6 +84,7 @@ public class unionfind {
         System.out.println(cycle);
     }
 
-    
+    //https://www.lintcode.com/problem/number-of-islands-ii/ good question
+    // sir explained it in the class 
 
 }

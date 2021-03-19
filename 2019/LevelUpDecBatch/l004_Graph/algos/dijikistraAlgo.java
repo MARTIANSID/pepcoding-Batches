@@ -43,16 +43,18 @@ public class dijikistraAlgo {
     }
 
     // basic
+
+//In unidirectional graph dont use visited only in case of biderctional only
     public static void dijikstra(int src, int N, ArrayList<Edge>[] graph) {
         PriorityQueue<dijikstraPair> que = new PriorityQueue<>((a, b) -> {
             return a.wsf - b.wsf;
         });
-
+                        
         que.add(new dijikstraPair(src, 0));
         int NumberOfEdges = 0;
 
         boolean[] vis = new boolean[N];
-        while (NumberOfEdges < N - 1) { // when you know graph is connected.
+        while (NumberOfEdges <  N - 1) { // when you know graph is connected.
             dijikstraPair p = que.remove();
             if (vis[p.vtx])
                 continue; // cycle.

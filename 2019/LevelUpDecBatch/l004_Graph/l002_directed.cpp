@@ -69,14 +69,14 @@ void kahnsAlgo()
     vector<int> indegree(N, 0);
     for (int i = 0; i < N; i++)
         for (Edge e : graph[i])
-            indegree[e.v]++;
+            indegree[e.v]++; 
 
     vector<int> ans;
     queue<int> que;
 
     for (int i = 0; i < N; i++)
         if (indegree[i] == 0)
-            que.push(i);
+            que.push(i);    
 
     int level = 0;
     while (que.size() != 0)

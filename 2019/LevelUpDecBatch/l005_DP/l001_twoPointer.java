@@ -176,7 +176,7 @@ public class l001 {
             return dp[sp];
 
         int count = 0;
-        for (int dice = 1; dice <= 6 && sp + dice <= ep; dice++) {
+        for (int dice = 1; dice <= 6 && sp +  dice <= ep; dice++) {
             count += boardPath_memo(sp + dice, ep, dp);
         }
 

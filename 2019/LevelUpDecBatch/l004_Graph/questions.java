@@ -17,7 +17,7 @@ public class questions {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (grid[i][j] == 2)
-                    que.addLast(i * m + j);
+                    que.addLast(i * m + j);W
                 else if (grid[i][j] == 1)
                     freshOranges++;
             }
