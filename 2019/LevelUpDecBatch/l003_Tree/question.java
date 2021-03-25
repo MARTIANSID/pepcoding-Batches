@@ -492,7 +492,7 @@ public class question {
         if (node == null)
             return;
 
-        if (node.val < data)
+        if (node.val < data) 
             pair.floor = Math.max(pair.floor, node.val);
 
         if (node.val > data)
@@ -545,7 +545,7 @@ public class question {
     public Node inorderSuccessor(Node node) {
 
         if (node.right != null) {
-            node = node.right;
+            node = node.right; 
             while (node.left != null)
                 node = node.left;
 
@@ -745,6 +745,24 @@ public class question {
         serializeTree(node.left, arr);
         serializeTree(node.right, arr);
     }
+
+
+     
+    public String seralize02(TreeNode root){
+        if(root==null){
+              
+                return "-1";
+        }   
+           
+ 
+ String left=  seralize02(root.left);
+ String right = seralize02(root.right);     
+   String a= root.val+","+left+","+right;
+
+   return a;
+           
+       
+}
 
     public static TreeNode rightMostNode(TreeNode next, TreeNode curr) {
         while (next.right != null && next.right != curr)

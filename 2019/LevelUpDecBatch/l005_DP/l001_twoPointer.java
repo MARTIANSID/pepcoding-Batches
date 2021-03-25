@@ -677,23 +677,23 @@ public class l001_twoPointer {
         return (int) ans;
     }
 
-    // https://www.geeksforgeeks.org/count-number-of-ways-to-partition-a-set-into-k-subsets/
-    public static int noOfWays(int n, int k, int[][] dp) {
-        if (k == 1) {
-            return dp[n][k] = 1;
-        }
-        if (n == k) {
-            return dp[n][k] = 1;
-        }
+            // https://www.geeksforgeeks.org/count-number-of-ways-to-partition-a-set-into-k-subsets/
+            public static int noOfWays(int n, int k, int[][] dp) {
+                if (k == 1) {
+                    return dp[n][k] = 1;
+                }
+                if (n == k) {
+                    return dp[n][k] = 1;
+                }
 
-        if (dp[n][k] != 0)
-            return dp[n][k];
+                if (dp[n][k] != 0)
+                    return dp[n][k];
 
-        int uniqueGroup = noOfWays(n - 1, k - 1, dp);
-        int partOfExisGroup = noOfWays(n - 1, k, dp) * k;
-
-        return dp[n][k] = uniqueGroup + partOfExisGroup;
-    }
+                int uniqueGroup = noOfWays(n - 1, k - 1, dp);
+                int partOfExisGroup = noOfWays(n - 1, k, dp) * k;
+                
+                return dp[n][k] = uniqueGroup + partOfExisGroup;
+            }
 
     public static void main(String[] args) {
         // fibo();

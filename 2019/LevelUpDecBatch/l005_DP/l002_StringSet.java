@@ -7,7 +7,7 @@ public class l002_StringSet {
             return dp[i][j] = (i == j) ? 1 : 0;
         }
 
-        if (dp[i][j] != -1)
+        if (    dp[i][j] != -1)
             return dp[i][j];
 
         if (s.charAt(i) == s.charAt(j))
@@ -23,8 +23,8 @@ public class l002_StringSet {
 
                 if (i == j) {
                     dp[i][j] = 1;
-                    continue;
-                }
+                        continue;
+                    }
 
                 if (s.charAt(i) == s.charAt(j))
                     dp[i][j] = dp[i + 1][j - 1] + 2;
@@ -77,7 +77,7 @@ public class l002_StringSet {
             return dp[n][m] = 0;
         }
 
-        if (dp[n][m] != -1)
+        if (dp[n][m] != -1) 
             return dp[n][m];
 
         if (s.charAt(n - 1) == t.charAt(m - 1)) {
@@ -167,7 +167,7 @@ public class l002_StringSet {
 
         int N = A.length;
         int M = B.length;
-        int[][] dp = new int[N + 1][M + 1];
+        int[][] dp = new int[N + 1][M + 1]; 
 
         for (int n = 0; n <= N; n++) {
             for (int m = 0; m <= M; m++) {
@@ -331,7 +331,7 @@ public class l002_StringSet {
         }
 
         return sb.toString();
-    }
+    }   
 
     public boolean isMatch(String s, String p) {
         p = removeStars(p);
