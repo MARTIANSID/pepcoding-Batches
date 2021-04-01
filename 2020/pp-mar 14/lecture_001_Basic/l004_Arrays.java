@@ -196,9 +196,72 @@ public class l004_Arrays {
 
     }
 
-    // arr1 as number > arr2 as number
+    // arr2 as number > arr1 as number
     public static void subtractOfTwoArray(int[] arr1, int[] arr2) {
 
+        int n = arr1.length;
+        int m = arr2.length;
+        int[] ans = new int[m];
+
+        int i = n - 1, j = m - 1, k = m - 1;
+        int borrow = 0;
+        while (k >= 0) {
+            int diff = borrow + arr2[j] - (i >= 0 ? arr1[i] : 0);
+            if (diff < 0) {
+                diff += 10;
+                borrow = -1;
+            } else {
+                borrow = 0;
+            }
+
+            ans[k] = diff;
+
+            i--;
+            j--;
+            k--;
+        }
+
+        boolean nonZeroFound = false;
+        for (int ele : ans) {
+            if (ele != 0) {
+                nonZeroFound = true;
+            }
+
+            if (nonZeroFound)
+                System.out.println(ele);
+        }
+
+    }
+
+    public static void printInRange(int[] arr, int si, int ei) {
+        while (si <= ei) {
+            System.out.print(arr[si] + " ");
+            si++;
+        }
+    }
+
+    public static void printAllSubArrays(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                printInRange(arr, i, j);
+            }
+        }
+    }
+
+    public static int binarySearch(int[] arr, int data) {
+        int si = 0, ei = arr.length - 1;
+        while (si <= ei) {
+            int mid = (si + ei) / 2;
+            if (arr[mid] == data)
+                return mid;
+            else if (arr[mid] < data)
+                si = mid + 1;
+            else
+                ei = mid - 1;
+        }
+
+        return -1;
     }
 
     public static void main(String[] args) {
