@@ -34,7 +34,7 @@ public class l005CutType {
 
     // cost of one multiplication is 1$
     public static int mcm_dp(int[] arr, int SI, int EI, int[][] dp) {
-
+ 
         int n = arr.length;
         for (int gap = 1; gap < n; gap++) {
             for (int si = 0, ei = gap; ei < n; si++, ei++) {
