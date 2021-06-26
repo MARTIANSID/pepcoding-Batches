@@ -82,7 +82,7 @@ public class questions {
     }
 
     // 206
-    public ListNode reverseList(ListNode head) {
+    public static ListNode reverseList(ListNode head) {
         if (head == null || head.next == null)
             return head;
 
@@ -98,6 +98,110 @@ public class questions {
         }
 
         return prev;
+    }
+
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        l1 = reverseList(l1);
+        l2 = reverseList(l2);
+
+        ListNode dummy = new ListNode(-1);
+
+        ListNode c1 = l1, c2 = l2, prev = dummy;
+        int carry = 0;
+        while (c1 != null || c2 != null || carry != 0) {
+            int sum = carry + (c1 != null ? c1.val : 0) + (c2 != null ? c2.val : 0);
+
+            carry = sum / 10;
+            sum %= 10;
+
+            prev.next = new ListNode(sum);
+
+            prev = prev.next;
+            if (c1 != null)
+                c1 = c1.next;
+            if (c2 != null)
+                c2 = c2.next;
+        }
+
+        ListNode head = dummy.next;
+        head = reverseList(head);
+
+        l1 = reverseList(l1);
+        l2 = reverseList(l2);
+
+        return head;
+    }
+
+    // 21
+    public ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null)
+            return l1 != null ? l1 : l2;
+
+        ListNode head = null, prev = null, c1 = l1, c2 = l2;
+        while (c1 != null && c2 != null) {
+            if (c1.val <= c2.val) {
+                if (prev != null) {
+                    prev.next = c1;
+                    prev = prev.next;
+                } else {
+                    head = c1;
+                    prev = head;
+                }
+                c1 = c1.next;
+            } else {
+                if (prev != null) {
+                    prev.next = c2;
+                    prev = prev.next;
+                } else {
+                    head = c2;
+                    prev = head;
+                }
+                c2 = c2.next;
+            }
+        }
+
+        prev.next = c1 != null ? c1 : c2;
+
+        return head;
+    }
+
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null)
+            return l1 != null ? l1 : l2;
+
+        ListNode dummy = new ListNode(-1);
+        ListNode prev = dummy, c1 = l1, c2 = l2;
+
+        while (c1 != null && c2 != null) {
+            if (c1.val <= c2.val) {
+                prev.next = c1;
+                c1 = c1.next;
+            } else {
+                prev.next = c2;
+                c2 = c2.next;
+            }
+            prev = prev.next;
+        }
+
+        prev.next = c1 != null ? c1 : c2;
+
+        return dummy.next;
+    }
+
+    // 148
+    public ListNode sortList(ListNode head) {
+        if (head.next == null)
+            return head;
+
+        ListNode mid = middleNode(head);
+        ListNode nHead = mid.next;
+        mid.next = null;
+
+        ListNode leftSortedList = sortList(head);
+        ListNode rightSortedList = sortList(nHead);
+
+        return mergeTwoLists(leftSortedList, rightSortedList);
     }
 
 }

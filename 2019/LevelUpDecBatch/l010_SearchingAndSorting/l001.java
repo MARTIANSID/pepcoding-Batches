@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.tree.TreePath;
+
 import java.util.HashMap;
 
 public class l001 {
@@ -298,6 +301,255 @@ public class l001 {
                 B[idx++] = e1 + e2;
 
         return twoSumCount(A, B, 0);
+    }
+
+    // 658
+    public int insertPosition(int[] arr, int data) {
+        int n = arr.length, si = 0, ei = n - 1;
+        while (si <= ei) {
+            int mid = (si + ei) / 2;
+            if (arr[mid] <= data)
+                si = mid + 1;
+            else
+                ei = mid - 1;
+        }
+
+        return si;
+    }
+
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int ele : arr)
+            ans.add(ele);
+
+        int n = arr.length;
+        if (x <= arr[0])
+            return ans.subList(0, k);
+        else if (x >= arr[n - 1])
+            return ans.subList(n - k, n);
+        else {
+            int idx = insertPosition(arr, x);
+            int lr = Math.max(0, idx - k);
+            int rr = Math.min(n - 1, idx + k);
+
+            while ((rr - lr + 1) > k) {
+                if (x - arr[lr] > arr[rr] - x)
+                    lr++;
+                else
+                    rr--;
+            }
+            return ans.subList(lr, rr + 1);
+        }
+    }
+
+    // O(log(n) + k)
+    public List<Integer> findClosestElements_02(int[] arr, int k, int x) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int ele : arr)
+            ans.add(ele);
+
+        int n = arr.length;
+        if (x <= arr[0])
+            return ans.subList(0, k); // {arr.begin(), arr.begin() + k}
+        else if (x >= arr[n - 1])
+            return ans.subList(n - k, n); // {arr.end() - k, arr.end()}
+        else {
+            int lr = 0, rr = n - k;
+            while (lr < rr) {
+                int mid = (lr + rr) / 2;
+                if (x - arr[mid] > arr[mid + k] - x)
+                    lr = mid + 1;
+                else
+                    rr = mid;
+            }
+
+            return ans.subList(lr, lr + k);
+        }
+    }
+
+    public int insertPosition(ArrayList<Integer> list, int data) {
+        int n = list.size(), si = 0, ei = n - 1;
+        while (si <= ei) {
+            int mid = (si + ei) / 2;
+            if (list.get(mid) <= data)
+                si = mid + 1;
+            else
+                ei = mid - 1;
+        }
+        int insertPos = si;
+        int lastIndex = si - 1;
+        return lastIndex >= 0 && list.get(lastIndex) == data ? lastIndex : insertPos;
+    }
+
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        if (n <= 1)
+            return n;
+
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int ele : nums) {
+            int loc = insertPosition(list, ele);
+            if (loc == list.size())
+                list.add(ele);
+            else
+                list.set(loc, ele);
+        }
+
+        return list.size();
+    }
+
+    // ===================================================
+
+    // 875
+    // O(n)
+    public boolean isPossibleToEat(int[] arr, int eatingSpeed, int hour) {
+        int hr = 0;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            hr += Math.ceil(arr[i] / (eatingSpeed * 1.0));
+            if (hr > hour)
+                return false;
+        }
+
+        return true;
+    }
+
+    public int minEatingSpeed(int[] piles, int h) {
+        // Arrays.sort(piles);
+        int n = piles.length, si = 1, ei = (int) 1e9;
+
+        while (si < ei) {
+            int eatingSpeed = (si + ei) / 2;
+            if (!isPossibleToEat(piles, eatingSpeed, h))
+                si = eatingSpeed + 1;
+            else
+                ei = eatingSpeed;
+        }
+
+        return si;
+    }
+
+    // 1011
+    public boolean isPossibleToShip(int[] weight, int capacity, int days) {
+        int d = 1;
+        int totalWeightPerDay = 0;
+        for (int w : weight) {
+            totalWeightPerDay += w;
+            if (totalWeightPerDay > capacity) {
+                d++;
+                totalWeightPerDay = w;
+            }
+
+            if (d > days)
+                return false;
+        }
+
+        return true;
+    }
+
+    public int shipWithinDays(int[] weights, int days) {
+        int maxEle = 0, sum = 0;
+        for (int w : weights) {
+            maxEle = Math.max(maxEle, w);
+            sum += w;
+        }
+
+        int si = maxEle, ei = sum;
+        while (si < ei) {
+            int capacity = (si + ei) / 2;
+            if (!isPossibleToShip(weights, capacity, days))
+                si = capacity + 1;
+            else
+                ei = capacity;
+        }
+
+        return si;
+    }
+
+    public boolean isPossibleToShip2(int[] weight, int capacity, int days) {
+        int d = 1;
+        int totalWeightPerDay = 0;
+        for (int w : weight) {
+            if (w > capacity)
+                return false;
+            totalWeightPerDay += w;
+            if (totalWeightPerDay > capacity) {
+                d++;
+                totalWeightPerDay = w;
+            }
+
+            if (d > days)
+                return false;
+        }
+
+        return true;
+    }
+
+    public int shipWithinDays2(int[] weights, int days) {
+        int si = 1, ei = (int) 1e7;
+        while (si < ei) {
+            int capacity = (si + ei) / 2;
+            if (!isPossibleToShip(weights, capacity, days))
+                si = capacity + 1;
+            else
+                ei = capacity;
+        }
+
+        return si;
+    }
+
+    public boolean isPossibleToServeCake(int[] radiusArray, double cakeArea, int guest) {
+        int g = 0;
+        for (int i = radiusArray.length - 1; i >= 0; i--) {
+            double area = Math.PI * radiusArray[i] * radiusArray[i];
+            g += Math.floor(area / cakeArea);
+            if (g >= guest)
+                return true;
+
+        }
+        return false;
+    }
+
+    public double maximumAreaCake(int[] radius, int guest) {
+        Arrays.sort(radius);
+        int n = radius.length;
+        double si = (Math.PI * radius[0] * radius[0]) / guest, ei = Math.PI * radius[n - 1] * radius[n - 1]; // si =
+                                                                                                             // 0.0,ei =
+                                                                                                             // 1e6;
+
+        while ((ei - si) > 1e-5) {
+            double cakeArea = (si + ei) / 2.0;
+            if (!isPossibleToServeCake(radius, cakeArea, guest))
+                ei = cakeArea - 1e-5;
+            else
+                si = cakeArea;
+
+        }
+
+        return si;
+    }
+
+    public boolean itIsCorrectPenatly(int[] arr, double distance, int k) {
+        int noOfGasStation = 0, n = arr.length;
+        for (int i = 1; i < n; i++) {
+            noOfGasStation += (arr[i] - arr[i - 1]) / distance;
+            if (noOfGasStation > k)
+                return false;
+        }
+
+        return true;
+    }
+
+    public double minmaxGasDist(int[] stations, int k) {
+        double si = 0.0, ei = 1e9;
+        while ((ei - si) > 1e-6) {
+            double distance = (ei + si) / 2.0;
+            if (!itIsCorrectPenatly(stations, distance, k))
+                si = distance + 1e-6;
+            else
+                ei = distance;
+        }
+
+        return si;
     }
 
     public static void main(String[] args) {
